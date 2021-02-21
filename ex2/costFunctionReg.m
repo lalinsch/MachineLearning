@@ -17,9 +17,16 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+h = sigmoid(X * theta);
+%We only want to affect the values of theta>1 so we set the initial theta
+%to zero
+theta(1) = 0; 
 
+unreg_cost = (-y' * (log(h)) - (1 - y)' * log(1-h)) / m;
+J = unreg_cost + ((theta' * theta) * (lambda / (2*m)));
 
-
+unreg_grad = (X' * (h - y)) / m;
+grad = unreg_grad + (theta * lambda) / m;
 
 
 % =============================================================
